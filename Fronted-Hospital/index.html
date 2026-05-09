@@ -28,15 +28,9 @@
             </ul>
         </nav>
         <div class="mt-auto p-4 border-t border-blue-800 bg-blue-950">
-            <p class="text-xs text-blue-400 uppercase tracking-widest font-bold mb-1">
-                Desarrollado por:
-            </p>
-            <p class="text-sm font-semibold text-white">
-                Juan Pablo orellana
-            </p>
-            <p class="text-xs text-blue-300">
-                Carnet: 1890-24-3936
-            </p>
+            <p class="text-xs text-blue-400 uppercase tracking-widest font-bold mb-1">Desarrollado por:</p>
+            <p class="text-sm font-semibold text-white">Juan Pablo Orellana</p>
+            <p class="text-xs text-blue-300">Carnet: 1890-24-3936</p>
             <div class="mt-2 flex items-center">
                 <span class="w-2 h-2 bg-green-500 rounded-full animate-pulse mr-2"></span>
                 <span class="text-[10px] text-gray-400 uppercase">Sistema Verificado</span>
@@ -45,7 +39,6 @@
     </aside>
 
     <main class="flex-1 p-8 overflow-y-auto">
-        
         <section id="tab-dashboard" class="block">
             <header class="flex justify-between items-center mb-8 bg-white p-6 rounded-lg shadow-sm border-t-4 border-blue-600">
                 <div>
@@ -61,16 +54,15 @@
                 <table class="min-w-full leading-normal">
                     <thead>
                         <tr class="bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                            <th class="px-5 py-4 border-b-2">ID Paciente</th>
-                            <th class="px-5 py-4 border-b-2">Nombre</th> <th class="px-5 py-4 border-b-2">Gravedad</th>
+                            <th class="px-5 py-4 border-b-2">ID</th>
+                            <th class="px-5 py-4 border-b-2">Nombre</th>
                             <th class="px-5 py-4 border-b-2">Gravedad</th>
                             <th class="px-5 py-4 border-b-2">Estado</th>
-                            <th class="px-5 py-4 border-b-2">Médico Responsable</th>
-                            <th class="px-5 py-4 border-b-2">Fecha Ingreso</th>
+                            <th class="px-5 py-4 border-b-2">Médico</th>
+                            <th class="px-5 py-4 border-b-2">Fecha</th>
                         </tr>
                     </thead>
-                    <tbody id="tabla-pacientes">
-                        </tbody>
+                    <tbody id="tabla-pacientes"></tbody>
                 </table>
                 <div id="loading-state" class="text-center py-10 text-gray-500">Cargando pacientes...</div>
             </div>
@@ -81,37 +73,9 @@
                 <h1 class="text-3xl font-bold text-gray-900">Registrar Nuevo Paciente</h1>
                 <p class="text-gray-500 mt-1">Ingrese los datos para la evaluación de triaje</p>
             </header>
-
             <div class="bg-white rounded-lg shadow p-8 max-w-2xl">
                 <div id="alerta-form" class="hidden mb-6 p-4 rounded text-sm font-bold"></div>
-
                 <form id="form-registro" onsubmit="enviarRegistro(event)">
                     <div class="mb-4">
                         <label class="block text-gray-700 font-bold mb-2">Nombre del Paciente:</label>
-                        <input type="text" id="nombre" required class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
-                    </div>
-                    <div class="mb-4">
-                        <label class="block text-gray-700 font-bold mb-2">Síntomas:</label>
-                        <textarea id="sintomas" required rows="3" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"></textarea>
-                    </div>
-                    <div class="grid grid-cols-2 gap-4 mb-6">
-                        <div>
-                            <label class="block text-gray-700 font-bold mb-2">Gravedad (1-5):</label>
-                            <input type="number" id="gravedad" min="1" max="5" required class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
-                        </div>
-                        <div>
-                            <label class="block text-gray-700 font-bold mb-2">Carnet del Médico:</label>
-                            <input type="text" id="medico" placeholder="Ej. MED-1010" required class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 uppercase">
-                        </div>
-                    </div>
-                    <button type="submit" class="w-full bg-green-500 hover:bg-green-600 text-white font-bold py-3 px-4 rounded-lg transition duration-200">
-                        Registrar Paciente
-                    </button>
-                </form>
-            </div>
-        </section>
-
-    </main>
-    <script src="script.js"></script>
-</body>
-</html>
+                        <input type="

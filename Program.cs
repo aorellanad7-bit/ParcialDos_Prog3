@@ -10,8 +10,21 @@ var connectionString = builder.Configuration.GetConnectionString("DefaultConnect
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString)));
 
+
+builder.Services.AddCors(options => {
+options.AddDefaultPolicy(policy => {
+// Para desarrollo pueden usar AllowAnyOrigin()
+// Para producción, especifiquen su URL de Azure: .WithOrigins("https://mi-sitio.azurewebsites.net")
+policy.AllowAnyOrigin()
+.AllowAnyMethod()
+.AllowAnyHeader();
+});
+});
+
 builder.Services.AddOpenApi();
 var app = builder.Build();
+
+app.UseCors();
 
 // Listado oficial de médicos (Requerimiento B)
 string[] medicosAutorizados = { "MED-1010", "MED-2020", "MED-3030", "MED-4040", "MED-5050" };

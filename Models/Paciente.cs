@@ -7,6 +7,8 @@ namespace Models;
 public class Paciente
 {
     [Key]
+
+    public string? Nombre { get; set; }
     public string Id { get; set; } = string.Empty; 
     public int Gravedad { get; set; } // 1-5
     public string Estado { get; set; } = "En espera";

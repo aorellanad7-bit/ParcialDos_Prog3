@@ -1,14 +1,10 @@
-// Usamos la ruta singular que confirmaste que funciona
 const API_URL = "https://parcialdosjuanpablo.azurewebsites.net/Paciente";
 
-// --- NAVEGACIÓN ENTRE PESTAÑAS ---
 function cambiarPestana(pestana) {
     document.getElementById('tab-dashboard').classList.add('hidden');
     document.getElementById('tab-registro').classList.add('hidden');
-    
     document.getElementById('btn-dashboard').classList.replace('bg-blue-800', 'text-blue-200');
     document.getElementById('btn-registro').classList.replace('bg-blue-800', 'text-blue-200');
-
     document.getElementById(`tab-${pestana}`).classList.remove('hidden');
     document.getElementById(`btn-${pestana}`).classList.replace('text-blue-200', 'bg-blue-800');
 
@@ -17,48 +13,33 @@ function cambiarPestana(pestana) {
     }
 }
 
-// --- ENDPOINT GET: MOSTRAR TABLERO ---
 async function obtenerPacientes() {
     const tbody = document.getElementById('tabla-pacientes');
     const loader = document.getElementById('loading-state');
     
     tbody.innerHTML = '';
     loader.classList.remove('hidden');
-    loader.innerHTML = 'Conectando con la base de datos...';
-
-    // Agregamos un número aleatorio al final para evitar la caché del navegador
-    const urlSinCache = `${API_URL}?t=${new Date().getTime()}`;
+    loader.innerHTML = 'Conectando a la base de datos de forma directa... ⚡';
 
     try {
-        const respuesta = await fetch(urlSinCache);
+        const respuesta = await fetch(API_URL);
         
-        if (!respuesta.ok) {
-            // AHORA EL ERROR NOS DIRÁ LA URL EXACTA
-            throw new Error(`El servidor dice 404 al intentar entrar a: ${API_URL}`);
-        }
+        if (!respuesta.ok) throw new Error(`El servidor respondió con código: ${respuesta.status}`);
 
         const texto = await respuesta.text();
-        if (!texto) throw new Error("El servidor no envió datos (Respuesta vacía).");
-
-        let pacientes;
-        try {
-            pacientes = JSON.parse(texto);
-        } catch(e) {
-            throw new Error("La ruta es incorrecta, el servidor devolvió una página web en lugar de datos JSON.");
-        }
+        let pacientes = JSON.parse(texto);
         
         loader.classList.add('hidden');
 
         if(pacientes.length === 0) {
-            tbody.innerHTML = `<tr><td colspan="6" class="text-center py-4">No hay pacientes registrados. Ve a "Nuevo Registro".</td></tr>`;
+            tbody.innerHTML = `<tr><td colspan="6" class="text-center py-4 text-gray-500 font-bold">Base de datos vacía. Ingresa un paciente en "Nuevo Registro".</td></tr>`;
             return;
         }
 
         pacientes.forEach(p => {
             const esCritico = p.gravedad === 5;
-            const filaClases = esCritico ? "bg-red-100 hover:bg-red-200" : "bg-white hover:bg-gray-50";
+            const filaClases = esCritico ? "bg-red-100" : "bg-white hover:bg-gray-50";
             const badgeGravedad = esCritico ? `<span class="bg-red-500 text-white px-2 py-1 rounded text-xs font-bold">5 - CRÍTICO</span>` : p.gravedad;
-            
             let fecha = p.fechaIngreso ? new Date(p.fechaIngreso).toLocaleString() : "N/A";
 
             const tr = document.createElement('tr');
@@ -73,29 +54,21 @@ async function obtenerPacientes() {
             `;
             tbody.appendChild(tr);
         });
-
     } catch (error) {
-        loader.innerHTML = `<span class="text-red-600 font-bold bg-red-100 px-4 py-2 rounded shadow block text-sm">
-        🚨 ${error.message}
-        </span>`;
+        loader.innerHTML = `<span class="text-red-600 font-bold bg-red-100 px-4 py-2 rounded shadow block text-sm">🚨 Error: ${error.message}</span>`;
     }
 }
 
-// --- ENDPOINT POST: NUEVO REGISTRO ---
 async function enviarRegistro(evento) {
     evento.preventDefault();
     const alerta = document.getElementById('alerta-form');
     alerta.classList.add('hidden'); 
 
-    const nombrePaciente = document.getElementById('nombre').value;
-    const gravedad = parseInt(document.getElementById('gravedad').value);
-    const medico = document.getElementById('medico').value.toUpperCase();
-
     const nuevoPaciente = {
-        nombre: nombrePaciente,
-        gravedad: gravedad,
+        nombre: document.getElementById('nombre').value,
+        gravedad: parseInt(document.getElementById('gravedad').value),
         estado: "En espera",
-        medicoResponsable: medico
+        medicoResponsable: document.getElementById('medico').value.toUpperCase()
     };
 
     try {
@@ -105,14 +78,8 @@ async function enviarRegistro(evento) {
             body: JSON.stringify(nuevoPaciente)
         });
 
-        if (respuesta.status === 401) {
-            mostrarAlerta("Acceso Denegado: El carnet del médico no está autorizado.", "red");
-            return;
-        }
-        if (respuesta.status === 400) {
-            mostrarAlerta("Capacidad máxima de pacientes críticos (Gravedad 5) alcanzada.", "red");
-            return;
-        }
+        if (respuesta.status === 401) return mostrarAlerta("Acceso Denegado: Carnet médico no autorizado.", "red");
+        if (respuesta.status === 400) return mostrarAlerta("Capacidad máxima de pacientes críticos alcanzada.", "red");
         if (respuesta.ok) {
             mostrarAlerta("¡Paciente registrado con éxito!", "green");
             document.getElementById('form-registro').reset(); 
@@ -132,5 +99,5 @@ function mostrarAlerta(mensaje, color) {
     alerta.classList.remove('hidden');
 }
 
-// Iniciar cargando la tabla
+// Iniciar
 obtenerPacientes();

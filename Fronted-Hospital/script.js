@@ -1,5 +1,4 @@
-
-const API_URL =  "https://parcialdosjuanpablo.azurewebsites.net/api/pacientes";
+const API_URL = "https://parcialdosjuanpablo.azurewebsites.net/api/Paciente";
 
 // --- NAVEGACIÓN ENTRE PESTAÑAS ---
 function cambiarPestana(pestana) {

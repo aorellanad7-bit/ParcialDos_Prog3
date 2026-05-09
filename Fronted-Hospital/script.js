@@ -1,3 +1,4 @@
+// Usamos la ruta singular que confirmaste que funciona
 const API_URL = "https://parcialdosjuanpablo.azurewebsites.net/Paciente";
 
 // --- NAVEGACIÓN ENTRE PESTAÑAS ---
@@ -25,12 +26,15 @@ async function obtenerPacientes() {
     loader.classList.remove('hidden');
     loader.innerHTML = 'Conectando con la base de datos...';
 
+    // Agregamos un número aleatorio al final para evitar la caché del navegador
+    const urlSinCache = `${API_URL}?t=${new Date().getTime()}`;
+
     try {
-        const respuesta = await fetch(API_URL);
+        const respuesta = await fetch(urlSinCache);
         
-        // Si el servidor responde pero con error (ej. 404 o 500)
         if (!respuesta.ok) {
-            throw new Error(`El servidor rechazó la conexión (Código: ${respuesta.status})`);
+            // AHORA EL ERROR NOS DIRÁ LA URL EXACTA
+            throw new Error(`El servidor dice 404 al intentar entrar a: ${API_URL}`);
         }
 
         const texto = await respuesta.text();
@@ -71,10 +75,8 @@ async function obtenerPacientes() {
         });
 
     } catch (error) {
-        // Aquí imprimimos el error exacto en la pantalla
-        loader.innerHTML = `<span class="text-red-600 font-bold bg-red-100 px-4 py-2 rounded shadow">
-        🚨 ERROR DETECTADO: ${error.message} <br><br>
-        Si dice "Failed to fetch" o "NetworkError", sigue siendo problema de CORS en Azure.
+        loader.innerHTML = `<span class="text-red-600 font-bold bg-red-100 px-4 py-2 rounded shadow block text-sm">
+        🚨 ${error.message}
         </span>`;
     }
 }

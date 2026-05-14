@@ -1,4 +1,4 @@
-const API_URL = "https://parcialdosjuanpablo.azurewebsites.net/api/Paciente";
+const API_URL = "https://parcialdosjuanpablo.azurewebsites.net/pacientes";
 
 async function cargar() {
     const lista = document.getElementById('lista-pacientes');

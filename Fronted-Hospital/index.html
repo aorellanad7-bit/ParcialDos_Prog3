@@ -2,16 +2,67 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Hospital - Versión Limpia</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hospital SGTH - Sistema de Triaje</title>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="bg-gray-100 p-10">
-    <div class="max-w-2xl mx-auto bg-white p-8 rounded shadow">
-        <h1 class="text-2xl font-bold mb-4 text-blue-600">Pacientes Registrados</h1>
-        <div id="status" class="mb-4 text-gray-500">Cargando...</div>
-        <ul id="lista-pacientes" class="space-y-2"></ul>
-        <button onclick="cargar()" class="mt-6 bg-blue-500 text-white px-4 py-2 rounded">Cargar Datos</button>
+<body class="bg-gray-50 flex h-screen font-sans antialiased">
+
+    <aside class="w-64 bg-slate-900 text-white flex flex-col shadow-2xl">
+        <div class="p-8 text-center border-b border-slate-800">
+            <h2 class="text-3xl font-black tracking-tighter">🏥 SGTH</h2>
+            <p class="text-[10px] text-slate-400 mt-1 uppercase tracking-widest">Centro de Control</p>
+        </div>
+        <nav class="flex-1 p-6 space-y-4">
+            <button onclick="cambiarSeccion('ver')" id="btn-ver" class="w-full text-left px-4 py-3 bg-blue-700 rounded-xl font-bold transition-all shadow-lg shadow-blue-900/50">📋 Ver Casos</button>
+            <button onclick="cambiarSeccion('registro')" id="btn-registro" class="w-full text-left px-4 py-3 hover:bg-slate-800 rounded-xl transition text-slate-400 font-medium">➕ Nuevo Registro</button>
+        </nav>
+    </aside>
+
+    <main class="flex-1 p-10 overflow-y-auto">
+        <section id="sec-ver" class="block animate-fade-in">
+            <div class="flex justify-between items-end mb-10">
+                <div>
+                    <h1 class="text-4xl font-black text-slate-800 italic">Tablero de Triaje</h1>
+                    <p class="text-slate-500 mt-2">Monitoreo de pacientes en tiempo real</p>
+                </div>
+                <button onclick="obtenerPacientes()" class="bg-white border-2 border-slate-200 text-slate-700 px-6 py-2 rounded-full font-bold hover:bg-slate-50 transition shadow-sm">🔄 Refrescar Lista</button>
+            </div>
+
+            <div class="bg-white rounded-3xl shadow-xl shadow-slate-200/50 overflow-hidden border border-slate-100">
+                <table class="w-full text-left border-collapse">
+                    <thead>
+                        <tr class="bg-slate-50/50 text-slate-400 text-[11px] uppercase tracking-widest font-black">
+                            <th class="px-8 py-5">Nombre del Paciente</th>
+                            <th class="px-8 py-5">Prioridad</th>
+                            <th class="px-8 py-5">Estado Actual</th>
+                            <th class="px-8 py-5 border-r">Médico a Cargo</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tabla-pacientes" class="divide-y divide-slate-100 text-slate-700">
+                        </tbody>
+                </table>
+                <div id="loader" class="p-20 text-center text-slate-300 font-medium animate-pulse">Consultando base de datos...</div>
+            </div>
+        </section>
+
+        <section id="sec-registro" class="hidden">
+            </section>
+    </main>
+
+    <div class="fixed bottom-8 right-8 z-50">
+        <div class="bg-white/80 backdrop-blur-md border border-slate-200 shadow-2xl rounded-2xl p-5 flex items-center gap-4 border-b-4 border-b-blue-600">
+            <div class="w-12 h-12 bg-gradient-to-br from-blue-500 to-blue-700 rounded-full flex items-center justify-center text-white shadow-lg">
+                <span class="text-xl font-bold">JP</span>
+            </div>
+            <div>
+                <p class="text-[9px] font-black text-blue-600 uppercase tracking-[0.2em]">Autor del Proyecto</p>
+                <p class="text-base font-black text-slate-800 leading-tight">Juan Pablo Orellana</p>
+                <p class="text-xs font-bold text-slate-400">ID: 1890-24-3936</p>
+            </div>
+        </div>
     </div>
+
     <script src="script.js"></script>
 </body>
 </html>

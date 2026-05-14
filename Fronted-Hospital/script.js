@@ -1,11 +1,30 @@
 const API_URL = "https://parcialdosjuanpablo.azurewebsites.net/pacientes";
 
 function cambiarSeccion(seccion) {
-    document.getElementById('sec-ver').classList.toggle('hidden', seccion !== 'ver');
-    document.getElementById('sec-registro').classList.toggle('hidden', seccion !== 'registro');
-    document.getElementById('btn-ver').classList.toggle('bg-blue-800', seccion === 'ver');
-    document.getElementById('btn-registro').classList.toggle('bg-blue-800', seccion === 'registro');
-    if(seccion === 'ver') obtenerPacientes();
+   // Obtenemos las dos secciones
+    const secVer = document.getElementById('sec-ver');
+    const secRegistro = document.getElementById('sec-registro');
+    
+    // Obtenemos los botones para cambiarles el estilo
+    const btnVer = document.getElementById('btn-ver');
+    const btnRegistro = document.getElementById('btn-registro');
+
+    if (seccion === 'ver') {
+        secVer.classList.remove('hidden');
+        secRegistro.classList.add('hidden');
+        // Estilo activo para el botón Ver
+        btnVer.classList.add('bg-blue-700', 'text-white', 'shadow-lg');
+        btnRegistro.classList.remove('bg-blue-700', 'text-white', 'shadow-lg');
+        btnRegistro.classList.add('text-slate-400');
+        obtenerPacientes(); // Refresca la lista al volver
+    } else {
+        secVer.classList.add('hidden');
+        secRegistro.classList.remove('hidden');
+        // Estilo activo para el botón Registro
+        btnRegistro.classList.add('bg-blue-700', 'text-white', 'shadow-lg');
+        btnVer.classList.remove('bg-blue-700', 'text-white', 'shadow-lg');
+        btnVer.classList.add('text-slate-400');
+    }
 }
 
 async function obtenerPacientes() {
